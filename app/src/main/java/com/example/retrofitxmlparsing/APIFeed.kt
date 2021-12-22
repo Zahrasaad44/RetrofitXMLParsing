@@ -6,5 +6,5 @@ import retrofit2.http.GET
 interface APIFeed {
 
     @get:GET("feed.xml?x=1")
-    val feed: Call<ArrayList<Feed?>>
+    val feed: Call<Feed>
 }

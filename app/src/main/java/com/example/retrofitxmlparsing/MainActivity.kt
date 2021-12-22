@@ -1,6 +1,5 @@
 package com.example.retrofitxmlparsing
 
-import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -9,13 +8,13 @@ import com.example.retrofitxmlparsing.databinding.ActivityMainBinding
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.create
+
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var recyclerAdapter: FeedAdapter
-    private lateinit var items: ArrayList<Feed?>
+    private lateinit var items: List<Item>
 
     private val apiFeed = APLClient().getClient()?.create(APIFeed::class.java)
 
@@ -24,21 +23,21 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        items = arrayListOf()
+        items = listOf()
         recyclerAdapter = FeedAdapter(items)
         binding.feedRV.adapter = recyclerAdapter
         binding.feedRV.layoutManager = LinearLayoutManager(this)
 
-        apiFeed?.feed?.enqueue(object : Callback<ArrayList<Feed?>>{
+        apiFeed?.feed?.enqueue(object : Callback<Feed>{
             override fun onResponse(
-                call: Call<ArrayList<Feed?>>,
-                response: Response<ArrayList<Feed?>>
+                call: Call<Feed>,
+                response: Response<Feed>
             ) {
-                items = response!!.body()!!
+                items = response.body()!!.channel!!.itemList!!
                 recyclerAdapter.showFeed(items)
             }
 
-            override fun onFailure(call: Call<ArrayList<Feed?>>, t: Throwable) {
+            override fun onFailure(call: Call<Feed>, t: Throwable) {
                 Toast.makeText(this@MainActivity, "Couldn't get feed", Toast.LENGTH_LONG).show()
             }
 

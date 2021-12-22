@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.retrofitxmlparsing.databinding.FeedItemBinding
 
-class FeedAdapter(var feed: ArrayList<Feed?>): RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
+class FeedAdapter(var feed: List<Item>): RecyclerView.Adapter<FeedAdapter.FeedViewHolder>() {
     class FeedViewHolder(val binding: FeedItemBinding): RecyclerView.ViewHolder(binding.root) {
 
     }
@@ -18,13 +18,13 @@ class FeedAdapter(var feed: ArrayList<Feed?>): RecyclerView.Adapter<FeedAdapter.
         val item = feed[position]
 
         holder.binding.apply {
-            titleTV.text = item?.channel.toString()
+            titleTV.text = item.title
         }
     }
 
     override fun getItemCount() = feed.size
 
-    fun showFeed(feed: ArrayList<Feed?>) {
+    fun showFeed(feed: List<Item>) {
         this.feed = feed
         notifyDataSetChanged()
     }
